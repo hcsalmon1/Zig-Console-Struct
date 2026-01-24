@@ -24,7 +24,6 @@ Old way:
     var stdin_reader = std.fs.File.stdin().reader(read_buffer);
     var reader = &stdin_reader.interface;
 
-    try reader.
     var line:[]u8 = try self.reader.takeDelimiterExclusive('\n');
 
     //remove \r if windows
