@@ -37,8 +37,6 @@ Old way:
 ```
 
 This is hard to remember, tedious and long to write each time. I wanted to make this simpler.
-Solution:
-
 
 This does everything for you. It gets stdin and stdout, gets the reader and writer and then references the interface.
 
