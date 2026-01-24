@@ -32,7 +32,7 @@ pub const Console = struct {
 
     ///Prints to the console immediately.
     ///Use this when you want to see output now.
-    pub fn println(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
+    pub fn printLine(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
         try self.writer.print(fmt, args);
         try self.writer.print("\n", .{});
         try self.writer.flush();
@@ -51,7 +51,7 @@ pub const Console = struct {
     }
     ///Writes to buffer only, use flush to see it in the console.
     ///Use this when you want to add many things to the buffer and print them all at once with flush.
-    pub fn writeln(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
+    pub fn writeLine(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
         try self.writer.print(fmt, args);
         try self.writer.print("\n", .{});
     }
