@@ -9,7 +9,7 @@ New way:
 	var console:Console = undefined;
 	console.init(&write_buffer, &read_buffer);
 
-	try console.println("Hello World!", .{}); //will flush for you
+	try console.printLine("Hello World!", .{}); //will flush for you
 ```
 Old way:
 ```zig
@@ -52,7 +52,7 @@ fn consoleInput(console:*Console) !void {
 
     while (true) {
 
-        try console.println("Write something:", .{});
+        try console.printLine("Write something:", .{});
         const line:[]u8 = try console.readLine();
         if (std.mem.eql(u8, line, "close") == true) {
             break;
