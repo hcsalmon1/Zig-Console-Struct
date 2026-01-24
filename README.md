@@ -2,12 +2,22 @@
 
 Reading and writing from the console in Zig can be quite complicated:
 
+New way:
+```zig
+	var write_buffer:[1024]u8 = undefined;
+	var read_buffer:[1024]u8 = undefined;
+	var console:Console = undefined;
+	console.init(&write_buffer, &read_buffer);
+
+	console.println("Hello World!", .{}); //will flush for you
+```
+Old way:
 ```zig
     var write_buffer:[1024]u8 = undefined;
     var stdout_writer = std.fs.File.stdout().writer(&write_buffer);
     const writer:*std.Io.Writer = &stdout_writer.interface;
 
-    try writer.print("", .{}); //print only writes to the buffer
+    try writer.print("Hello World!", .{}); //print only writes to the buffer
     try writer.flush(); //flush will actually print the text to the console
     
     var read_buffer:[1024]u8 = undefined;
@@ -28,17 +38,14 @@ Reading and writing from the console in Zig can be quite complicated:
 
 This is hard to remember, tedious and long to write each time. I wanted to make this simpler.
 Solution:
-```zig
-	var write_buffer:[1024]u8 = undefined;
-	var read_buffer:[1024]u8 = undefined;
-	var console:Console = undefined;
-	console.init(&write_buffer, &read_buffer);
-```
 
-This does everything for you. It gets 
+
+This does everything for you. It gets stdin and stdout, gets the reader and writer and then references the interface.
 
 'console' has to be set to undefined at first because reader and writer are pointers and would be dangling pointers if 
 created with an init function immediately. I wanted to avoid heap allocation where necessary.
+
+Usage:
 
 ```zig
 fn consoleInput(console:*Console) !void {
@@ -57,6 +64,4 @@ fn consoleInput(console:*Console) !void {
 }
 ```
 Reading and writing is as simple as this. You just pass the Console to functions by reference.
-
-
-    
+ 
