@@ -69,7 +69,7 @@ fn consoleInput(console:*Console) !void {
 ```
 Reading and writing is as simple as this. You just pass the Console to functions by reference.
  
-Console has many useful functions but not all of them. Such as:
+Console has many useful functions but not all of them. Such as:  
 **println()** - writes to the buffer and flushes to the console with a new line  
 **print()** - writes to the buffer and flushes to the console  
 **writeln()** - writes to the buffer with a new line  
