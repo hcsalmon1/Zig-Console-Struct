@@ -39,6 +39,13 @@ This is hard to remember, tedious and long to write each time. I wanted to make 
 
 'Console' does everything for you. It gets stdin and stdout, gets the reader and writer and then references the interface.
 
+```zig
+
+	var console:Console = undefined;
+	console.init(&write_buffer, &read_buffer);
+
+```
+
 'console' has to be set to undefined at first because reader and writer are pointers and would be dangling pointers if 
 created with an init function immediately. I wanted to avoid heap allocation where necessary.
 
