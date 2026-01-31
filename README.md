@@ -71,12 +71,12 @@ Reading and writing is as simple as this. You just pass the Console to functions
  
 Console has many useful functions but not all of them. Such as:  
   
-**println()** - writes to the buffer and flushes to the console with a new line  
+**printLine()** - writes to the buffer and flushes to the console with a new line  
 **print()** - writes to the buffer and flushes to the console  
-**writeln()** - writes to the buffer with a new line  
+**writeLine()** - writes to the buffer with a new line  
 **write()** - writes to the buffer  
 **flush()** - prints to the console and clears the buffer  
-**readline()** - reads until '\n', removes '\r' for windows, returns ![]u8  
+**readLine()** - reads until '\n', removes '\r' for windows, returns ![]u8  
 **fill()** - fills the read buffer for n number of bytes  
 **peek()** - look at the next n number of bytes, return ![]u8  
 **peekByte()** - returns the next byte without incrementing index, !u8  
