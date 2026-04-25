@@ -1,6 +1,8 @@
 
 const std = @import("std");
 const Allocator = std.mem.Allocator;
+const Io = std.Io;
+const File = std.Io.File;
 
 ///A struct that allows console reading and writing without boilerplate.
 ///usage:
@@ -10,29 +12,37 @@ const Allocator = std.mem.Allocator;
 /// 
 /// Use console.writer or console.reader for all methods.
 pub const Console = struct {
-    out_f:std.fs.File,
-    fw:std.fs.File.Writer,
+    io:Io,
+
+    out_f:std.Io.File,
+    fw:std.Io.File.Writer,
     writer:*std.Io.Writer,
 
-    in_file:std.fs.File,
-    fr:std.fs.File.Reader,
+    in_file:std.Io.File,
+    fr:std.Io.File.Reader,
     reader:*std.Io.Reader,
 
     const Self = @This();
 
-    pub fn init(self:*Self, write_buffer:[]u8, read_buffer:[]u8) void {
-        self.out_f = std.fs.File.stdout();
-        self.fw = self.out_f.writer(write_buffer);
+    pub fn getCommandLineArguments(self:*const Self, _init:std.process.Init, allocator:Allocator) ![]const [:0]const u8 {
+        _ = self;
+        return try _init.minimal.args.toSlice(allocator);
+    }
+
+    pub fn init(self:*Self, io:Io, write_buffer:[]u8, read_buffer:[]u8) void {
+        self.io = io;
+
+        self.fw = std.Io.File.Writer.init(std.Io.File.stdout(), io, write_buffer);
         self.writer = &self.fw.interface;
 
-        self.in_file = std.fs.File.stdin();
-        self.fr = self.in_file.reader(read_buffer);
+        self.in_file = Io.File.stdin();
+        self.fr = self.in_file.reader(io, read_buffer);
         self.reader = &self.fr.interface;
     }
 
     ///Prints to the console immediately.
     ///Use this when you want to see output now.
-    pub fn printLine(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
+    pub fn println(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
         try self.writer.print(fmt, args);
         try self.writer.print("\n", .{});
         try self.writer.flush();
@@ -51,7 +61,7 @@ pub const Console = struct {
     }
     ///Writes to buffer only, use flush to see it in the console.
     ///Use this when you want to add many things to the buffer and print them all at once with flush.
-    pub fn writeLine(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
+    pub fn writeln(self:*const Self, comptime fmt:[]const u8, args:anytype) !void {
         try self.writer.print(fmt, args);
         try self.writer.print("\n", .{});
     }
@@ -91,7 +101,7 @@ pub const Console = struct {
     ///
     /// If the end of stream is not encountered, asserts buffer capacity is at
     /// least `n`.
-    pub fn fill(self:*const Self, n:usize) !void {
+    pub fn fill(self:*const Self, n: usize) !void {
         try self.reader.fill(n);
     }
 
