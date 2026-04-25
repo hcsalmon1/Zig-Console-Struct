@@ -14,14 +14,14 @@ New way:
 Old way:
 ```zig
     var write_buffer:[1024]u8 = undefined;
-    var stdout_writer = std.fs.File.stdout().writer(&write_buffer);
+    var stdout_writer = File.Writer.init(File.stdout(), init.io, &write_buffer);
     const writer:*std.Io.Writer = &stdout_writer.interface;
 
     try writer.print("Hello World!", .{}); //print only writes to the buffer
     try writer.flush(); //flush will actually print the text to the console
     
     var read_buffer:[1024]u8 = undefined;
-    var stdin_reader = std.fs.File.stdin().reader(read_buffer);
+    var stdin_reader = Io.File.stdin().reader(init.io, &read_buffer);
     var reader = &stdin_reader.interface;
 
     var line:[]u8 = try self.reader.takeDelimiterExclusive('\n');
