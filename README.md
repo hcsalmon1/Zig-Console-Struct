@@ -7,7 +7,7 @@ New way:
 	var write_buffer:[1024]u8 = undefined;
 	var read_buffer:[1024]u8 = undefined;
 	var console:Console = undefined;
-	console.init(&write_buffer, &read_buffer);
+	console.init(io, &write_buffer, &read_buffer);
 
 	try console.printLine("Hello World!", .{}); //will flush for you
 ```
