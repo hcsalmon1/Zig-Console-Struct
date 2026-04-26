@@ -42,7 +42,7 @@ This is hard to remember, tedious and long to write each time. I wanted to make 
 ```zig
 
 	var console:Console = undefined;
-	console.init(&write_buffer, &read_buffer);
+	console.init(io, &write_buffer, &read_buffer);
 
 ```
 
